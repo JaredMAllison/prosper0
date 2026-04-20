@@ -47,4 +47,4 @@ def test_registry_raises_on_unknown_tool(tmp_path):
     from stack.mcp.registry import make_tool_executor
     executor = make_tool_executor(vault_root=tmp_path)
     with pytest.raises(ValueError, match="Unknown tool"):
-        executor("write_file", {"path": "/foo.md", "content": "x"})
+        executor("delete_file", {"path": "/foo.md"})
