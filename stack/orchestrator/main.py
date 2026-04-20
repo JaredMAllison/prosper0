@@ -7,6 +7,8 @@ import sys
 import uuid
 from pathlib import Path
 
+import httpx
+
 from .backend import ModelBackend
 from .ollama import OllamaBackend
 from .prompt import build_system_prompt
@@ -51,11 +53,12 @@ def main():
     config_path = Path(os.environ.get("TOOLS_CONFIG_PATH", "./tools.config.yaml"))
     log_dir = Path(os.environ.get("AUDIT_LOG_PATH", "./logs"))
     mode = os.environ.get("PROSPER0_MODE", "available")
+    timeout = float(os.environ.get("OLLAMA_TIMEOUT", "600"))
     session_id = str(uuid.uuid4())[:8]
     memory_dir = Path(os.environ.get("MEMORY_PATH", str(vault_path / "memory")))
     skills_dir = Path(os.environ.get("SKILLS_PATH", str(vault_path / "skills")))
 
-    backend = OllamaBackend(host=ollama_host, model=model)
+    backend = OllamaBackend(host=ollama_host, model=model, timeout=timeout)
     gate = _build_gate(config_path, log_dir, session_id)
     tool_executor = make_tool_executor(vault_root=vault_path)
     system_prompt = build_system_prompt(
@@ -87,6 +90,9 @@ def main():
             print(f"\nAriel: {response}\n")
         except MaxIterationsError as e:
             print(f"[error] {e}", file=sys.stderr)
+        except httpx.ReadTimeout:
+            messages.pop()  # remove the unanswered user message
+            print("[timeout] Inference timed out — the model is thinking too slowly on CPU. Try a shorter message or wait for GPU support.", file=sys.stderr)
 
 
 if __name__ == "__main__":
