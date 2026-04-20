@@ -1,0 +1,35 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: prosper0-ollama
+    volumes:
+      - ${OLLAMA_MODELS_PATH:-./models}:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prosper0:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: prosper0-orchestrator
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:7b}
+      - VAULT_PATH=/vault
+      - PROSPER0_MODE=${PROSPER0_MODE:-available}
+    volumes:
+      - ${VAULT_PATH:-./vault}:/vault:ro
+      - ${TOOLS_CONFIG_PATH:-../stack/tools.config.yaml}:/app/tools.config.yaml:ro
+      - ${AUDIT_LOG_PATH:-./logs}:/logs
+    stdin_open: true
+    tty: true
+    restart: unless-stopped

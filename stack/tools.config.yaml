@@ -1,0 +1,14 @@
+version: 1
+signed_by: ""
+
+tools:
+  allowed:
+    - name: read_file
+      paths:
+        - "/vault/"
+  denied: []
+
+transfer:
+  allowed: false
+  max_size_kb: 1024
+  employer_email: ""
