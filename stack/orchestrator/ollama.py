@@ -3,7 +3,7 @@ import httpx
 from .backend import ModelBackend, ModelResponse, ToolCall
 
 
-DEFAULT_TIMEOUT = 300  # CPU inference on 7B can take minutes
+DEFAULT_TIMEOUT = 600  # CPU inference on 7B with large context can take minutes
 
 
 class OllamaBackend(ModelBackend):
