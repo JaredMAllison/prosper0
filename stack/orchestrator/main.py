@@ -52,11 +52,18 @@ def main():
     log_dir = Path(os.environ.get("AUDIT_LOG_PATH", "./logs"))
     mode = os.environ.get("PROSPER0_MODE", "available")
     session_id = str(uuid.uuid4())[:8]
+    memory_dir = Path(os.environ.get("MEMORY_PATH", str(vault_path / "memory")))
+    skills_dir = Path(os.environ.get("SKILLS_PATH", str(vault_path / "skills")))
 
     backend = OllamaBackend(host=ollama_host, model=model)
     gate = _build_gate(config_path, log_dir, session_id)
     tool_executor = make_tool_executor(vault_root=vault_path)
-    system_prompt = build_system_prompt(mode=mode, session_id=session_id)
+    system_prompt = build_system_prompt(
+        mode=mode,
+        session_id=session_id,
+        memory_dir=memory_dir,
+        skills_dir=skills_dir,
+    )
 
     print(f"Ariel von Prosper0 — mode: {mode} | session: {session_id}")
     print("Type your message. Ctrl+C to exit.\n")
