@@ -16,10 +16,11 @@ dependencies = [
 dev = [
     "pytest>=7.4",
     "pytest-mock>=3.12",
+    "respx>=0.20",
 ]
 
 [tool.setuptools.packages.find]
-include = ["stack*"]
+include = ["stack*", "transparency*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
