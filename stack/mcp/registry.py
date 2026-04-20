@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Callable
 
 from .tools.read_file import read_file
+from .tools.write_file import write_file
 
 
 def make_tool_executor(vault_root: Path) -> Callable[[str, dict], bytes]:
@@ -9,5 +10,7 @@ def make_tool_executor(vault_root: Path) -> Callable[[str, dict], bytes]:
     def executor(tool_name: str, arguments: dict) -> bytes:
         if tool_name == "read_file":
             return read_file(arguments["path"], vault_root)
+        if tool_name == "write_file":
+            return write_file(arguments["path"], arguments["content"], vault_root)
         raise ValueError(f"Unknown tool: '{tool_name}'")
     return executor

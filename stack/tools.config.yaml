@@ -6,6 +6,9 @@ tools:
     - name: read_file
       paths:
         - "/vault/"
+    - name: write_file
+      paths:
+        - "/vault/"
   denied: []
 
 transfer:
