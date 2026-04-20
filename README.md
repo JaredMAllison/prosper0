@@ -136,8 +136,45 @@ See [`spec/`](spec/) for architecture decision records:
 
 ---
 
+## Design Decisions
+
+See [`spec/`](spec/) for architecture decision records:
+
+- [`spec/lmf-adr-003.md`](spec/lmf-adr-003.md) — LMF Virtualization Layer
+- [`spec/prosper0-adr-001.md`](spec/prosper0-adr-001.md) — Project Charter
+- [`spec/prosper0-adr-002-enforcement-middleware-chain.md`](spec/prosper0-adr-002-enforcement-middleware-chain.md) — Enforcement middleware chain
+- [`spec/prosper0-adr-003-ed25519-employer-signed-config.md`](spec/prosper0-adr-003-ed25519-employer-signed-config.md) — Ed25519 config signing
+- [`spec/prosper0-adr-004-self-certification-transfers.md`](spec/prosper0-adr-004-self-certification-transfers.md) — Self-certification for data transfers
+- [`spec/prosper0-adr-005-fail-closed-enforcement.md`](spec/prosper0-adr-005-fail-closed-enforcement.md) — Fail-closed enforcement
+- [`spec/prosper0-adr-006-model-selection.md`](spec/prosper0-adr-006-model-selection.md) — Qwen2.5 7B selected
+- [`spec/prosper0-adr-007-inference-runtime.md`](spec/prosper0-adr-007-inference-runtime.md) — Ollama in Docker
+- [`spec/prosper0-adr-008-orchestrator-design.md`](spec/prosper0-adr-008-orchestrator-design.md) — Orchestrator loop design
+- [`spec/architecture.md`](spec/architecture.md) — Layer-by-layer design reference
+- [`spec/mvp-roadmap.md`](spec/mvp-roadmap.md) — MVP milestone map
+
+---
+
+## Quick Start
+
+```bash
+cd deploy/
+docker compose up -d
+./pull-model.sh          # first run only — pulls qwen2.5:7b
+docker attach prosper0-orchestrator
+```
+
+---
+
 ## Status
 
-Active development. Layer 1 (model selection) is the current priority.
+| Layer | Status |
+|---|---|
+| Layer 1: LLM Stack | ✅ M0–M3 complete — Ariel can start and take input |
+| Layer 4: Employer Transparency | ✅ Enforcement chain complete — 33 tests passing |
+| Layers 2, 3, 5, 6 | 🔲 Not started |
+
+**Current:** Merging M0–M3 to main. Next: live smoke test (`docker compose up`).
+
+**AI:** Ariel von Prosper0 — Qwen2.5 7B via Ollama.
 
 Built by Jared Allison. Part of the [Local Mind Foundation](https://github.com/local-mind-foundation) project.
