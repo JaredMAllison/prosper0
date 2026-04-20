@@ -28,7 +28,7 @@ services:
       - VAULT_PATH=/vault
       - PROSPER0_MODE=${PROSPER0_MODE:-available}
     volumes:
-      - ${VAULT_PATH:-./vault}:/vault:ro
+      - ${VAULT_PATH:-./vault}:/vault
       - ${TOOLS_CONFIG_PATH:-../stack/tools.config.yaml}:/app/tools.config.yaml:ro
       - ${AUDIT_LOG_PATH:-./logs}:/logs
     stdin_open: true
