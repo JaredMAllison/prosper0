@@ -3,10 +3,14 @@ import httpx
 from .backend import ModelBackend, ModelResponse, ToolCall
 
 
+DEFAULT_TIMEOUT = 300  # CPU inference on 7B can take minutes
+
+
 class OllamaBackend(ModelBackend):
-    def __init__(self, host: str, model: str) -> None:
+    def __init__(self, host: str, model: str, timeout: float = DEFAULT_TIMEOUT) -> None:
         self._host = host
         self._model = model
+        self._timeout = timeout
 
     def generate(
         self,
@@ -20,7 +24,7 @@ class OllamaBackend(ModelBackend):
             "tools": tools,
             "stream": False,
         }
-        response = httpx.post(f"{self._host}/api/chat", json=payload)
+        response = httpx.post(f"{self._host}/api/chat", json=payload, timeout=self._timeout)
         response.raise_for_status()
         msg = response.json()["message"]
 
