@@ -1,0 +1,28 @@
+services:
+  ariel-von-marlin:
+    build:
+      context: ../..
+      dockerfile: deploy/Dockerfile
+    container_name: ariel-von-marlin
+    environment:
+      - OLLAMA_HOST=http://prosper0-ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:7b}
+      - VAULT_PATH=/vault
+      - MEMORY_PATH=/vault/System/Memory
+      - SKILLS_PATH=/vault/System/Skills
+      - TOOLS_CONFIG_PATH=/app/tools.config.yaml
+      - AUDIT_LOG_PATH=/logs
+      - PROSPER0_MODE=${PROSPER0_MODE:-available}
+    volumes:
+      - ${VAULT_PATH:-/home/jared/Documents/Obsidian/Marlin}:/vault
+      - ./tools.config.yaml:/app/tools.config.yaml:ro
+      - ${AUDIT_LOG_PATH:-./logs}:/logs
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    networks:
+      - deploy_default
+
+networks:
+  deploy_default:
+    external: true

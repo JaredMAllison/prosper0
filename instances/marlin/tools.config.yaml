@@ -1,0 +1,31 @@
+version: 1
+profile: personal
+signed_by: ""
+
+tools:
+  allowed:
+    - name: search_files
+      paths:
+        - "/vault/"
+    - name: list_directory
+      paths:
+        - "/vault/"
+    - name: read_file
+      paths:
+        - "/vault/"
+    - name: write_file
+      paths:
+        - "/vault/Tasks/"
+        - "/vault/Projects/"
+        - "/vault/Daily/"
+        - "/vault/Inbox.md"
+        - "/vault/System/Memory/"
+        - "/vault/System/Vault/ARIEL.md"
+        - "/vault/Insights/"
+        - "/vault/Learning/"
+  denied: []
+
+transfer:
+  allowed: false
+  max_size_kb: 1024
+  employer_email: ""
