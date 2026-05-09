@@ -1,5 +1,8 @@
 # Prosper0
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](pyproject.toml)
+
 A work-specific exobrain — a locally-sovereign AI assistant scoped entirely to a single employer relationship. Built on the [Local Mind Foundation](https://github.com/local-mind-foundation) architecture.
 
 When the job changes, the number increments: Prosper0 → Prosper1 → Prosper2. The architecture carries forward. The vault stays archived.
